@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Votre Restaurant — Bar & Pizzeria</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --espresso:   #1E0F08;
+  --truffle:    #3A1F10;
+  --terracotta: #C0392B;
+  --amber:      #D4891A;
+  --parchment:  #F5EDD8;
+  --cream:      #FBF7EF;
+  --mist:       #E8DCC8;
+  --ash:        #9A8878;
+  --ink:        #2C1810;
+  --whatsapp:   #25D366;
+
+–font-display: ‘Bebas Neue’, sans-serif;
+–font-serif:   ‘Lora’, serif;
+–font-body:    ‘DM Sans’, sans-serif;
+–transition: 220ms cubic-bezier(.4,0,.2,1);
+–shadow-warm: 0 8px 40px rgba(30,15,8,.14);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(–cream); color: var(–ink); font-family: var(–font-body); overflow-x: hidden; }
+
+body::before {
+content: ‘’;
+position: fixed; inset: 0; z-index: 1000; pointer-events: none;
+background-image: url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘noise’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23noise)’ opacity=‘0.04’/%3E%3C/svg%3E”);
+opacity: .35;
+}
+
+/* NAV */
+nav {
+position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+display: flex; justify-content: space-between; align-items: center;
+padding: 0 48px; height: 68px;
+background: rgba(30,15,8,.96);
+backdrop-filter: blur(12px);
+border-bottom: 1px solid rgba(212,137,26,.2);
+}
+.nav-logo { font-family: var(–font-display); font-size: 22px; letter-spacing: 2px; color: var(–amber); }
+.nav-links { display: flex; gap: 40px; align-items: center; }
+.nav-links a {
+font-size: 12px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+color: rgba(245,237,216,.6); text-decoration: none; transition: color var(–transition);
+}
+.nav-links a:hover { color: var(–parchment); }
+.nav-cta { padding: 10px 24px !important; border: 1px solid var(–amber) !important; color: var(–amber) !important; border-radius: 2px; }
+.nav-cta:hover { background: var(–amber) !important; color: var(–espresso) !important; }
+
+/* HERO */
+.hero {
+height: 100vh; min-height: 640px;
+display: grid; place-items: center;
+background: var(–espresso);
+position: relative; overflow: hidden; padding-top: 68px;
+}
+.hero-bg {
+position: absolute; inset: 0;
+background:
+radial-gradient(ellipse 80% 60% at 50% 30%, rgba(192,57,43,.18) 0%, transparent 65%),
+radial-gradient(ellipse 60% 80% at 80% 80%, rgba(212,137,26,.08) 0%, transparent 55%),
+repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(245,237,216,.012) 2px, rgba(245,237,216,.012) 4px);
+}
+.hero::after {
+content: ‘’; position: absolute; inset: 0; pointer-events: none;
+background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.7) 100%);
+}
+.hero-inner { position: relative; z-index: 2; text-align: center; padding: 0 24px; }
+.hero-stamp {
+display: inline-flex; align-items: center; gap: 12px; margin-bottom: 32px;
+opacity: 0; animation: fadeUp .7s ease .1s forwards;
+}
+.hero-stamp::before, .hero-stamp::after { content: ‘’; display: block; width: 40px; height: 1px; background: var(–amber); }
+.hero-stamp span { font-size: 10px; font-weight: 500; letter-spacing: 4px; text-transform: uppercase; color: var(–amber); }
+.hero h1 {
+font-family: var(–font-display);
+font-size: clamp(72px, 14vw, 160px); line-height: .9; color: var(–parchment);
+opacity: 0; animation: fadeUp .8s ease .25s forwards;
+}
+.hero h1 span { color: var(–terracotta); }
+.hero-tagline {
+font-family: var(–font-serif); font-style: italic;
+font-size: clamp(16px, 2.5vw, 22px); color: rgba(245,237,216,.55);
+margin-top: 20px; opacity: 0; animation: fadeUp .8s ease .4s forwards;
+}
+.hero-actions {
+display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+margin-top: 44px; opacity: 0; animation: fadeUp .8s ease .55s forwards;
+}
+.btn {
+display: inline-flex; align-items: center; gap: 10px;
+padding: 15px 40px; border-radius: 2px;
+font-family: var(–font-body); font-size: 12px; font-weight: 500;
+letter-spacing: 2.5px; text-transform: uppercase; text-decoration: none; cursor: pointer;
+transition: all var(–transition);
+}
+.btn-primary { background: var(–terracotta); color: #fff; border: 2px solid var(–terracotta); }
+.btn-primary:hover { background: transparent; color: var(–terracotta); }
+.btn-ghost { background: transparent; color: var(–parchment); border: 2px solid rgba(245,237,216,.3); }
+.btn-ghost:hover { border-color: var(–parchment); }
+.hero-scroll {
+position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); z-index: 2;
+display: flex; flex-direction: column; align-items: center; gap: 10px;
+opacity: 0; animation: fadeUp .8s ease 1s forwards;
+}
+.hero-scroll span { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: rgba(245,237,216,.3); }
+.scroll-bar { width: 1px; height: 48px; background: linear-gradient(to bottom, rgba(212,137,26,.6), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+
+/* SECTION */
+.section { padding: 96px 48px; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.eyebrow {
+font-size: 10px; font-weight: 500; letter-spacing: 4px; text-transform: uppercase; color: var(–amber);
+display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+}
+.eyebrow::after { content: ‘’; display: block; width: 32px; height: 1px; background: var(–amber); }
+.section-title { font-family: var(–font-display); font-size: clamp(48px, 6vw, 80px); line-height: .95; color: var(–espresso); margin-bottom: 24px; }
+.section-title em { color: var(–terracotta); font-style: normal; }
+
+/* PROOF */
+.proof-strip {
+background: var(–espresso); padding: 32px 48px;
+display: flex; justify-content: center; gap: 72px; flex-wrap: wrap;
+}
+.proof-item { text-align: center; }
+.proof-num { font-family: var(–font-display); font-size: 52px; color: var(–amber); display: block; line-height: 1; }
+.proof-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(245,237,216,.4); margin-top: 6px; }
+
+/* ABOUT */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.about-visual {
+position: relative; aspect-ratio: 4/5; border-radius: 2px; overflow: hidden;
+background: linear-gradient(135deg, var(–truffle), var(–espresso));
+}
+.about-visual-emoji { font-size: 100px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -70%); }
+.about-badge {
+position: absolute; top: 24px; right: 24px; width: 80px; height: 80px; border-radius: 50%;
+background: var(–terracotta); display: flex; flex-direction: column; align-items: center; justify-content: center;
+border: 2px solid rgba(245,237,216,.2);
+}
+.about-badge-num { font-family: var(–font-display); font-size: 26px; color: #fff; line-height: 1; }
+.about-badge-text { font-size: 8px; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,.7); }
+.about-visual-inner {
+position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 32px;
+background: linear-gradient(to top, rgba(30,15,8,.9) 0%, transparent 60%);
+}
+.about-visual-caption { font-family: var(–font-serif); font-style: italic; font-size: 15px; color: rgba(245,237,216,.7); line-height: 1.5; }
+.about-content p { font-size: 15px; line-height: 1.8; color: #5c4535; margin-bottom: 16px; }
+.about-quote { margin-top: 32px; padding: 24px; border-left: 3px solid var(–amber); background: var(–parchment); }
+.about-quote blockquote { font-family: var(–font-serif); font-style: italic; font-size: 17px; color: var(–espresso); line-height: 1.6; }
+.about-quote cite { display: block; margin-top: 10px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(–ash); font-style: normal; }
+
+/* MENU */
+.menu-section { background: var(–espresso); color: var(–parchment); }
+.menu-section .section-title { color: var(–parchment); }
+.menu-tabs { display: flex; gap: 4px; margin-bottom: 48px; border-bottom: 1px solid rgba(245,237,216,.1); }
+.tab {
+padding: 12px 28px 14px; cursor: pointer;
+font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+color: rgba(245,237,216,.45); background: transparent; border: none;
+border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all var(–transition);
+}
+.tab:hover { color: rgba(245,237,216,.8); }
+.tab.active { color: var(–amber); border-bottom-color: var(–amber); }
+.menu-list { display: flex; flex-direction: column; }
+.menu-row {
+display: flex; justify-content: space-between; align-items: baseline;
+padding: 20px 0; border-bottom: 1px solid rgba(245,237,216,.06);
+transition: padding var(–transition);
+}
+.menu-row:hover { padding-left: 12px; }
+.menu-row:last-child { border-bottom: none; }
+.menu-name { font-family: var(–font-serif); font-size: 19px; color: var(–parchment); margin-bottom: 4px; }
+.menu-desc { font-size: 13px; color: rgba(245,237,216,.4); }
+.menu-dots {
+flex: 1; margin: 0 16px; height: 1px; align-self: flex-end; margin-bottom: 6px;
+background: repeating-linear-gradient(to right, rgba(245,237,216,.15) 0, rgba(245,237,216,.15) 4px, transparent 4px, transparent 8px);
+}
+.menu-price { font-family: var(–font-display); font-size: 22px; color: var(–amber); white-space: nowrap; }
+
+/* TESTIMONIALS */
+.testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+.testimonial-card {
+background: #fff; padding: 28px; border-radius: 2px; box-shadow: var(–shadow-warm);
+position: relative; transition: transform var(–transition), box-shadow var(–transition);
+}
+.testimonial-card:hover { transform: translateY(-4px); }
+.testimonial-stars { color: var(–amber); font-size: 13px; letter-spacing: 2px; margin-bottom: 16px; }
+.testimonial-text { font-family: var(–font-serif); font-style: italic; font-size: 15px; line-height: 1.7; color: var(–ink); margin-bottom: 20px; }
+.testimonial-author { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(–ash); }
+.testimonial-card::before { content: ‘\201C’; position: absolute; top: 16px; right: 24px; font-family: var(–font-serif); font-size: 80px; color: var(–mist); line-height: 1; }
+
+/* HOURS */
+.hours-band { background: var(–terracotta); padding: 60px 48px; }
+.hours-band .section-inner { display: flex; align-items: center; justify-content: space-between; gap: 48px; flex-wrap: wrap; }
+.hours-band-title { font-family: var(–font-display); font-size: 48px; color: #fff; }
+.hours-grid { display: flex; gap: 48px; flex-wrap: wrap; }
+.hours-item { text-align: center; }
+.hours-day { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,.6); margin-bottom: 6px; }
+.hours-time { font-family: var(–font-display); font-size: 26px; color: #fff; }
+.hours-time.closed { color: rgba(255,255,255,.35); font-size: 20px; }
+
+/* ══════════ CONTACT SECTION (remplace formulaire) ══════════ */
+.contact-section { background: var(–parchment); }
+.contact-big {
+text-align: center; max-width: 700px; margin: 0 auto;
+}
+.contact-big p { font-size: 16px; line-height: 1.7; color: var(–ash); margin-bottom: 48px; }
+.contact-buttons { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.btn-call {
+display: flex; align-items: center; justify-content: center; gap: 14px;
+width: 100%; max-width: 420px; padding: 22px 40px;
+background: var(–espresso); color: var(–parchment);
+border-radius: 4px; text-decoration: none; border: none;
+font-family: var(–font-display); font-size: 32px; letter-spacing: 2px;
+transition: all var(–transition); box-shadow: var(–shadow-warm);
+}
+.btn-call:hover { background: var(–terracotta); transform: translateY(-2px); }
+.btn-call-label { font-family: var(–font-body); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(–amber); display: block; margin-bottom: 4px; }
+.btn-whatsapp {
+display: flex; align-items: center; justify-content: center; gap: 12px;
+width: 100%; max-width: 420px; padding: 18px 40px;
+background: var(–whatsapp); color: #fff;
+border-radius: 4px; text-decoration: none;
+font-family: var(–font-body); font-size: 14px; font-weight: 500; letter-spacing: 1px;
+transition: all var(–transition); box-shadow: var(–shadow-warm);
+}
+.btn-whatsapp:hover { opacity: .9; transform: translateY(-2px); }
+.contact-note { font-size: 13px; color: var(–ash); margin-top: 24px; font-style: italic; }
+.contact-info-strip {
+display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+margin-top: 56px; padding-top: 40px; border-top: 1px solid var(–mist);
+}
+.contact-info-item { text-align: center; }
+.contact-info-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(–amber); margin-bottom: 6px; }
+.contact-info-value { font-family: var(–font-serif); font-size: 17px; color: var(–espresso); }
+
+/* FOOTER */
+footer { background: var(–espresso); padding: 48px; }
+.footer-inner {
+max-width: 1200px; margin: 0 auto;
+display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;
+border-top: 1px solid rgba(245,237,216,.08); padding-top: 32px;
+}
+.footer-logo { font-family: var(–font-display); font-size: 24px; color: var(–amber); }
+.footer-links { display: flex; gap: 32px; }
+.footer-links a { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(245,237,216,.35); text-decoration: none; transition: color var(–transition); }
+.footer-links a:hover { color: var(–parchment); }
+.footer-copy { font-size: 11px; color: rgba(245,237,216,.2); }
+
+/* REVEAL */
+[data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+[data-reveal].visible { opacity: 1; transform: none; }
+[data-reveal=“left”] { transform: translateX(-28px); }
+[data-reveal=“left”].visible { transform: none; }
+[data-reveal=“right”] { transform: translateX(28px); }
+[data-reveal=“right”].visible { transform: none; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+@keyframes scrollPulse { 0%,100%{opacity:.5;} 50%{opacity:1;} }
+
+button, a { cursor: pointer; }
+:focus-visible { outline: 2px solid var(–amber); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+@media (max-width: 900px) {
+nav { padding: 0 20px; }
+.nav-links { display: none; }
+.section { padding: 64px 20px; }
+.about-grid { grid-template-columns: 1fr; gap: 40px; }
+.about-visual { aspect-ratio: 16/9; }
+.testimonials-grid { grid-template-columns: 1fr; }
+.hours-band { padding: 40px 20px; }
+.hours-band .section-inner { flex-direction: column; align-items: flex-start; }
+.proof-strip { gap: 36px; padding: 32px 20px; }
+footer { padding: 32px 20px; }
+.footer-inner { flex-direction: column; text-align: center; }
+.contact-info-strip { gap: 28px; }
+}
+</style>
+
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Votre Restaurant</div>
+  <div class="nav-links">
+    <a href="#about">Notre histoire</a>
+    <a href="#menu">Menu</a>
+    <a href="#avis">Avis</a>
+    <a href="#contact" class="nav-cta">Réserver</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-stamp"><span>Cuisine Maison · Ambiance Chaleureuse · Votre Ville</span></div>
+    <h1>Votre<br/><span>Nom de</span><br/>Restaurant</h1>
+    <p class="hero-tagline">Cuisine maison · Ambiance chaleureuse · Vrais gens</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn btn-primary">📞 Réserver une table</a>
+      <a href="#menu" class="btn btn-ghost">Voir le menu</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="scroll-bar"></div><span>Découvrir</span></div>
+</section>
+
+<div class="proof-strip">
+  <div class="proof-item"><span class="proof-num">4.8</span><div class="proof-label">★ Note Google</div></div>
+  <div class="proof-item"><span class="proof-num">5j/7</span><div class="proof-label">Jours ouverts</div></div>
+  <div class="proof-item"><span class="proof-num">100%</span><div class="proof-label">Fait maison</div></div>
+  <div class="proof-item"><span class="proof-num">0</span><div class="proof-label">Repas décevant</div></div>
+</div>
+
+<section class="section" id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-visual" data-reveal="left">
+        <div class="about-visual-emoji">🍕</div>
+        <div class="about-badge"><div class="about-badge-num">4.8</div><div class="about-badge-text">Google</div></div>
+        <div class="about-visual-inner"><p class="about-visual-caption">Votre adresse,<br/>Votre Ville</p></div>
+      </div>
+      <div class="about-content" data-reveal="right">
+        <div class="eyebrow">Notre histoire</div>
+        <h2 class="section-title">Un restaurant<br/><em>qui vous ressemble</em></h2>
+        <p>Bienvenue dans votre restaurant de quartier — un endroit chaleureux où l'on mange bien et où les habitués deviennent des amis.</p>
+        <p>Ici, pas de chichis. Des pizzas faites maison avec des ingrédients frais, des bières soigneusement choisies, et une atmosphère qui donne envie de rester.</p>
+        <div class="about-quote">
+          <blockquote>"Une cuisine généreuse, un accueil chaleureux, et des prix honnêtes. On revient à chaque fois avec plaisir."</blockquote>
+          <cite>— Un client fidèle</cite>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section menu-section" id="menu">
+  <div class="section-inner">
+    <div data-reveal>
+      <div class="eyebrow" style="color:var(--amber)">Ce qu'on vous propose</div>
+      <h2 class="section-title">Notre <em style="color:var(--amber)">Menu</em></h2>
+    </div>
+    <div class="menu-tabs" data-reveal>
+      <button class="tab active" onclick="switchMenu(0,this)">Pizzas</button>
+      <button class="tab" onclick="switchMenu(1,this)">Snacks</button>
+      <button class="tab" onclick="switchMenu(2,this)">Boissons</button>
+    </div>
+    <div class="menu-list" id="menuList"></div>
+  </div>
+</section>
+
+<section class="section" id="avis">
+  <div class="section-inner">
+    <div data-reveal>
+      <div class="eyebrow">Ce qu'ils en disent</div>
+      <h2 class="section-title">Avis de nos <em>habitués</em></h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card" data-reveal>
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Une adresse incontournable du quartier. La cuisine est généreuse, les prix honnêtes et l'accueil toujours au rendez-vous."</p>
+        <div class="testimonial-author">Tom C. · Client régulier</div>
+      </div>
+      <div class="testimonial-card" data-reveal style="transition-delay:.1s">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Un grand merci ! La nourriture est excellente et le service impeccable. Les prix sont très raisonnables."</p>
+        <div class="testimonial-author">Marie L. · Votre Ville</div>
+      </div>
+      <div class="testimonial-card" data-reveal style="transition-delay:.2s">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Highly recommended! Fast service, I'll gladly return. The owner is fantastic — so welcoming."</p>
+        <div class="testimonial-author">Sophie R. · Google Review</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hours-band" id="horaires">
+  <div class="section-inner">
+    <div class="hours-band-title" data-reveal>Nos horaires</div>
+    <div class="hours-grid" data-reveal>
+      <div class="hours-item"><div class="hours-day">Lun — Ven</div><div class="hours-time">HH:mm → HH:mm</div></div>
+      <div class="hours-item"><div class="hours-day">Samedi</div><div class="hours-time closed">Fermé</div></div>
+      <div class="hours-item"><div class="hours-day">Dimanche</div><div class="hours-time closed">Fermé</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CONTACT — plus de formulaire, juste le téléphone ═══ -->
+
+<section class="section contact-section" id="contact">
+  <div class="section-inner">
+    <div class="contact-big" data-reveal>
+      <div class="eyebrow" style="justify-content:center">Réserver une table</div>
+      <h2 class="section-title" style="margin-bottom:16px">Un coup <em>de fil</em><br/>suffit</h2>
+      <p>Pas besoin de formulaire. Appelez-nous directement ou envoyez-nous un message WhatsApp — on vous répond rapidement.</p>
+      <div class="contact-buttons">
+        <a href="tel:+33000000000" class="btn-call">
+          <div>
+            <span class="btn-call-label">Réserver une table</span>
+            XX XX XX XX XX
+          </div>
+        </a>
+        <a href="tel:+33000000000" class="btn-call" style="background:var(--amber);">
+          <div>
+            <span class="btn-call-label" style="color:var(--espresso);">Commander par téléphone</span>
+            XX XX XX XX XX
+          </div>
+        </a>
+        <a href="https://wa.me/33000000000?text=Bonjour%2C%20je%20voudrais%20commander%20!" target="_blank" class="btn-whatsapp">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Commander via WhatsApp
+        </a>
+      </div>
+      <p class="contact-note">Réponse rapide · Aux heures d'ouverture</p>
+      <div class="contact-info-strip">
+        <div class="contact-info-item">
+          <div class="contact-info-label">Adresse</div>
+          <div class="contact-info-value">Votre adresse complète</div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-label">Métro</div>
+          <div class="contact-info-value">Transports à préciser</div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-label">Téléphone</div>
+          <div class="contact-info-value">XX XX XX XX XX</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Votre Restaurant</div>
+    <div class="footer-links">
+      <a href="#menu">Menu</a>
+      <a href="#horaires">Horaires</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-copy">© 2025 Votre Restaurant · Votre adresse, Votre Ville</div>
+  </div>
+</footer>
+
+<script>
+const menus = [
+  [
+    {name:'Margherita', desc:'Tomate San Marzano, fior di latte, basilic', price:'11€'},
+    {name:'Reine', desc:'Jambon de Paris, champignons, mozzarella', price:'13€'},
+    {name:'4 Fromages', desc:'Mozzarella, chèvre, roquefort, emmental', price:'14€'},
+    {name:'Calzone', desc:'Ricotta, jambon, tomate, mozzarella dorée', price:'14€'},
+    {name:'Végétarienne', desc:'Légumes du marché, pesto basilic, chèvre', price:'13€'},
+    {name:'Spéciale Maison', desc:'La surprise du chef — demandez-nous !', price:'15€'},
+  ],
+  [
+    {name:'Frites maison', desc:'Croustillantes, sel de Guérande', price:'5€'},
+    {name:'Planche charcuterie', desc:'Sélection du marché, cornichons maison', price:'12€'},
+    {name:'Salade fraîche', desc:'Tomates, concombre, vinaigrette maison', price:'7€'},
+    {name:'Croque-monsieur', desc:'Jambon blanc, comté, béchamel gratinée', price:'8€'},
+  ],
+  [
+    {name:'Bières pression', desc:'Blondes & ambrées sélectionnées', price:'4–6€'},
+    {name:'Vins au verre', desc:'Rouge, blanc ou rosé — demandez la carte', price:'5€'},
+    {name:'Cocktails', desc:'Kir, Spritz, Mojito et classiques', price:'7–9€'},
+    {name:'Soft & Café', desc:'Sodas, jus frais, espresso, cappuccino', price:'2–4€'},
+  ],
+];
+let current = 0;
+function switchMenu(i, tab) {
+  current = i;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  renderMenu();
+}
+function renderMenu() {
+  document.getElementById('menuList').innerHTML = menus[current].map(item => `
+    <div class="menu-row">
+      <div><div class="menu-name">${item.name}</div><div class="menu-desc">${item.desc}</div></div>
+      <div class="menu-dots"></div>
+      <div class="menu-price">${item.price}</div>
+    </div>`).join('');
+}
+renderMenu();
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
